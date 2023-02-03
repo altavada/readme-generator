@@ -77,12 +77,25 @@ inquirer
         message: 'Enter installation instructions here:',
         name: 'install',
     },
+    {
+        type: 'input',
+        message: 'Enter contributor info here:',
+        name: 'contr',
+    },
+    {
+        type: 'input',
+        message: 'Enter your GitHub username here:',
+        name: 'github',
+    },
+    {
+        type: 'input',
+        message: 'Enter your email address here:',
+        name: 'email',
+    }
   ])
-//   .then((response) =>
-//     response.confirm === response.password
-//       ? console.log('Success!')
-//       : console.log('You forgot your password already?!')
-//   );
+  .then((response) =>
+    
+  );
 
 //   inquirer
 //   .prompt([
