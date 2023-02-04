@@ -1,6 +1,6 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
-
+// Array of licenses and associated badge icons
 const licenses = [
     {name: 'Apache 2.0 License', badge: '[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)'},
     {name: 'Boost Software License 1.0', badge: '[![License](https://img.shields.io/badge/License-Boost_1.0-lightblue.svg)](https://www.boost.org/LICENSE_1_0.txt)'},
@@ -36,12 +36,12 @@ const licenses = [
     {name: 'The zlib/libpng License', badge: '[![License: Zlib](https://img.shields.io/badge/License-Zlib-lightgrey.svg)](https://opensource.org/licenses/Zlib)'},
     {name: 'Other', badge:''}
 ]
-
+// Stores just license names in separate array
 let licenseNames = [];
 for(const i in licenses) {
     licenseNames.push(licenses[i].name);
 }
-
+// Prompts
 inquirer
   .prompt([
     {
@@ -86,14 +86,17 @@ inquirer
         name: 'email',
     }
   ])
+  // Creating README with prompt inputs
   .then((response) => {
     let badge;
     let toc = '## Table of Contents\n1. [Installation](#installation)\n2. [Usage](#usage)\n3. [License](#license)\n4. [Contributors](#contributors)\n5. [Questions](#questions)';
+    // Matches selected license name with badge icon
     for(const i of licenses) {
         if(i.name == response.license) {
             badge = i.badge;
         }
     }
+    // Creates file and adds content
     fs.writeFile('./output/README.md',
         `# ${response.title}\n${badge}\n# Description\n${response.desc}\n${toc}\n# Installation\n${response.install}\n# Usage\n${response.usage}\n# License\n${response.license}\n# Contributors\n${response.contr}\n# Questions\nGitHub username: ${response.github} -- Email address: ${response.email}`,
         (err) => err ? console.log(err) : null);
