@@ -1,6 +1,5 @@
 const inquirer = require('inquirer');
-
-// {name: , badge: },
+const fs = require('fs');
 
 const licenses = [
     {name: 'Apache 2.0 License', badge: '[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)'},
@@ -42,8 +41,6 @@ for(const i in licenses) {
     licenseNames.push(licenses[i].name);
 }
 
-
-
 inquirer
   .prompt([
     {
@@ -68,14 +65,9 @@ inquirer
     },
     {
         type: 'list',
-        name: 'licenses',
+        name: 'license',
         message: 'Select the license your project uses:',
         choices: licenseNames,
-    },
-    {
-        type: 'input',
-        message: 'Enter installation instructions here:',
-        name: 'install',
     },
     {
         type: 'input',
@@ -93,30 +85,99 @@ inquirer
         name: 'email',
     }
   ])
-  .then((response) =>
-    
-  );
+  .then((response) => {
+    fs.writeFile('./output/README.md', '', (err) => err ? console.log(err) : null);
+    return response;
+  })
+  .then((response) => {
+    if(response.title) {
+        fs.appendFile('./output/README.md', `# ${response.title}\n`, (err) => err ? console.log(err) : null);
+    } else {
+        console.log('ALERT: No title provided.');
+    }
+    return response;
+  })
+  .then((response) => {
+    if(response.license) {
+        for(const i of licenses) {
+            if(i.name == response.license) {
+                fs.appendFile('./output/README.md', `${i.badge}\n`, (err) => err ? console.log(err) : null);
+            }
+        }
+    }
+    return response;
+  })
+  .then((response) => {
+    if(response.desc) {
+        fs.appendFile('./output/README.md', `## Description\n${response.desc}\n`, (err) => err ? console.log(err) : null);
+    } else {
+        console.log('ALERT: No description provided.');
+    }
+    return response;
+  })
+  .then((response) => {
+    fs.appendFile('./output/README.md', 
+        `## Table of Contents\n1. [Installation](#installation)\n2. [Usage](#usage)\n3. [License](#license)\n4. [Contributors](#contributors)\n5. [Questions](#questions)\n`,
+        (err) => err ? console.log(err) : null);
+    return response;
+  })
+  .then((response) => {
+    if(response.install) {
+        fs.appendFile('./output/README.md', `## Installation\n${response.install}\n`, (err) => err ? console.log(err) : null);
+    } else {
+        console.log('ALERT: No install directions provided.');
+    }
+    return response;
+  })
+  .then((response) => {
+    if(response.usage) {
+        fs.appendFile('./output/README.md', `## Usage\n${response.usage}\n`, (err) => err ? console.log(err) : null);
+    } else {
+        console.log('ALERT: No user directions provided.');
+    }
+    return response;
+  })
+  .then((response) => {
+    if(response.license) {
+        fs.appendFile('./output/README.md', `## License\n${response.license}\n`, (err) => err ? console.log(err) : null);
+    } else {
+        console.log('ALERT: No license provided.');
+    }
+    return response;
+  })
+  .then((response) => {
+    if(response.contr) {
+        fs.appendFile('./output/README.md', `## Contributors\n${response.contr}\n`, (err) => err ? console.log(err) : null);
+    } else {
+        console.log('ALERT: No contributor info provided.');
+    }
+    return response;
+  })
+  .then((response) => {
+    if(response.github || response.email) {
+        fs.appendFile('./output/README.md', `## Questions\n`, (err) => err ? console.log(err) : null);
+    }
+    return response;
+  })
+  .then((response) => {
+    if(response.github) {
+        fs.appendFile('./output/README.md', `GitHub Username: ${response.github}\n`, (err) => err ? console.log(err) : null);
+    } else {
+        console.log('ALERT: No github username provided.');
+    }
+    return response;
+  })
+  .then((response) => {
+    if(response.email) {
+        fs.appendFile('./output/README.md', `Email Address: ${response.email}\n`, (err) => err ? console.log(err) : null);
+    } else {
+        console.log('ALERT: No email provided.');
+    }
+    return response;
+  })
+  .then((response) => {
+        console.log('Program complete.');
+    return response;
+  })
 
-//   inquirer
-//   .prompt([
-//     {
-//       type: 'input',
-//       message: 'What is your user name?',
-//       name: 'username',
-//     },
-//     {
-//       type: 'password',
-//       message: 'What is your password?',
-//       name: 'password',
-//     },
-//     {
-//       type: 'password',
-//       message: 'Re-enter password to confirm:',
-//       name: 'confirm',
-//     },
-//   ])
-//   .then((response) =>
-//     response.confirm === response.password
-//       ? console.log('Success!')
-//       : console.log('You forgot your password already?!')
-//   );
+
