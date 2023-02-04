@@ -94,6 +94,7 @@ inquirer
         }
     }
     fs.writeFile('./output/README.md',
-        `# ${response.title}\n${badge}\n# Description\n${response.desc}\n${toc}\n# Installation\n${response.install}\n# Usage\n${response.usage}\n# License\n${response.license}\n# Contributors\n${response.contr}\n# Questions\nGitHub username: ${response.github}\nEmail address: ${response.email}`,
+        `# ${response.title}\n${badge}\n# Description\n${response.desc}\n${toc}\n# Installation\n${response.install}\n# Usage\n${response.usage}\n# License\n${response.license}\n# Contributors\n${response.contr}\n# Questions\nGitHub username: ${response.github} -- Email address: ${response.email}`,
         (err) => err ? console.log(err) : null);
+    console.log('Program complete.');
   })
